@@ -8,7 +8,9 @@ const laptopData = JSON.parse(json);
 const server = http.createServer((req, res) => {
 
     const pathName = url.parse(req.url, true).pathname;
-    console.log(pathName);
+    const id = url.parse(req.url, true).query.id;
+
+    // console.log(url.parse(req.url, true));
 
     if(pathName === '/products' || pathName === '/') {
         // Setting up a header
@@ -17,9 +19,9 @@ const server = http.createServer((req, res) => {
         res.end('This is the products page!');
     }
     
-    else if (pathName === '/laptop') {
+    else if (pathName === '/laptop' && id < laptopData.length) {
         res.writeHead(200, { 'Content-type': 'text/html'});
-        res.end('This is the laptop page!');
+        res.end(`This is the laptop page for laptop ${id}!`);
     }
     else {
         res.writeHead(404, { 'Content-type': 'text/html'});
