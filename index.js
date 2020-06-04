@@ -21,7 +21,25 @@ const server = http.createServer((req, res) => {
     
     else if (pathName === '/laptop' && id < laptopData.length) {
         res.writeHead(200, { 'Content-type': 'text/html'});
-        res.end(`This is the laptop page for laptop ${id}!`);
+
+        fs.readFile(`${__dirname}/templates/template-laptop.html`, 'utf-8', (err, data) => {
+            try {
+                const laptop = laptopData[id];
+            // Using regular expressions bcs otherwise just the first instance would be replaced
+            let output = data.replace(/{%PRODUCTNAME%}/g, laptop.productName);
+            output = data.replace(/{%IMAGE%}/g, laptop.image);
+            output = data.replace(/{%PRICE%}/g, laptop.price);
+            output = data.replace(/{%SCREEN%}/g, laptop.screen);
+            output = data.replace(/{%CPU%}/g, laptop.cpu);
+            output = data.replace(/{%STORAGE%}/g, laptop.storage);
+            output = data.replace(/{%RAM%}/g, laptop.ram);
+            output = data.replace(/{%DESCRIPTION%}/g, laptop.description);
+            res.end(output);
+            } catch(err) {
+                console.log(err);
+            }
+            
+        });
     }
     else {
         res.writeHead(404, { 'Content-type': 'text/html'});
