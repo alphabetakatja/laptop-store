@@ -25,16 +25,18 @@ const server = http.createServer((req, res) => {
         fs.readFile(`${__dirname}/templates/template-laptop.html`, 'utf-8', (err, data) => {
             try {
                 const laptop = laptopData[id];
-            // Using regular expressions bcs otherwise just the first instance would be replaced
-            let output = data.replace(/{%PRODUCTNAME%}/g, laptop.productName);
-            output = data.replace(/{%IMAGE%}/g, laptop.image);
-            output = data.replace(/{%PRICE%}/g, laptop.price);
-            output = data.replace(/{%SCREEN%}/g, laptop.screen);
-            output = data.replace(/{%CPU%}/g, laptop.cpu);
-            output = data.replace(/{%STORAGE%}/g, laptop.storage);
-            output = data.replace(/{%RAM%}/g, laptop.ram);
-            output = data.replace(/{%DESCRIPTION%}/g, laptop.description);
-            res.end(output);
+                console.log(laptop);
+                // Using regular expressions bcs otherwise just the first occurence of a label would be replaced
+                let output = data.replace(/{%PRODUCTNAME%}/g, laptop.productName);
+                output = output.replace(/{%IMAGE%}/g, laptop.image);
+                output = output.replace(/{%PRICE%}/g, laptop.price);
+                output = output.replace(/{%SCREEN%}/g, laptop.screen);
+                output = output.replace(/{%CPU%}/g, laptop.cpu);
+                output = output.replace(/{%STORAGE%}/g, laptop.storage);
+                output = output.replace(/{%RAM%}/g, laptop.ram);
+                output = output.replace(/{%DESCRIPTION%}/g, laptop.description);
+                // console.log(output);
+                res.end(output);
             } catch(err) {
                 console.log(err);
             }
